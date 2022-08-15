@@ -1,3 +1,6 @@
 # Commands Used
 
 `yarn create next-app -e with-tailwindcss opensea-v2`
+`npm install -g @sanity/cli`
+
+8:30
