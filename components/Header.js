@@ -1,6 +1,6 @@
 import React from 'react'
 import openSeaLogo from '../assets/opensea.png'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import Image from 'next/image'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { CgProfile } from 'react-icons/cg'
@@ -31,6 +31,22 @@ const style = {
           <div className={style.searchIcon}>
             <AiOutlineSearch />
             🔍</div>
+          <input
+            className={style.searchInput}
+            placeholder="Search items, collections, and accounts"
+          />
+        </div>
+        <div className={style.headerItems}>
+          <div className={style.headerItem}>Collections</div>
+          <div className={style.headerItem}>Stats</div>
+          <div className={style.headerItem}>Resources</div>
+          <div className={style.headerItem}>Create</div>
+          <div className={style.headerIcon}>
+            <CgProfile />
+          </div>
+          <div className={style.headerIcon}>
+            <MdOutlineAccountBalanceWallet />
+          </div>
         </div>
       </div>
     )
