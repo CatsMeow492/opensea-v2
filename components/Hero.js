@@ -39,6 +39,15 @@ const Hero = () => {
               className="rounded-t-lg"
               src="https://i.seadn.io/gcs/files/e83060afb04e12a354d1de52ca8e2d3c.gif?auto=format&w=1080"
             ></img>
+            <div className={style.infoContainer}>
+                <img 
+                    className="rounded-full"
+                    src="https://lh3.googleusercontent.com/ujepnqpnL0nDQIHsWxlCXzyw4pf01yjz1Jmb4kAQHumJAPrSEj0-e3ABMZlZ1HEpJoqwOcY_kgnuJGzfXbd2Tijri66GXUtfN2MXQA=s250"
+                ></img>
+                <div className={style.author}>
+                    <div className={style.name}>NFT</div>
+                </div>
+            </div>
           </div>
         </div>
       </div>
