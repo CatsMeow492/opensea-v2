@@ -29,6 +29,7 @@ const style = {
         </Link>
         <div className={style.searchBar}>
           <div className={style.searchIcon}>
+            <AiOutlineSearch />
             🔍</div>
         </div>
       </div>
