@@ -2,7 +2,6 @@ import React from 'react'
 import openSeaLogo from '../assets/opensea.png'
 import Link from 'next/link'
 import Image from 'next/image'
-import { AiOutlineSearch } from 'react-icons/ai'
 import { CgProfile } from 'react-icons/cg'
 import {MdOutlineAccountBalanceWallet} from 'react-icons/md'
 
@@ -29,7 +28,6 @@ const style = {
         </Link>
         <div className={style.searchBar}>
           <div className={style.searchIcon}>
-            <AiOutlineSearch />
             🔍</div>
           <input
             className={style.searchInput}
