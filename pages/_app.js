@@ -13,7 +13,7 @@ const connectors = {
   injected: {},
 }
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />
 }
 
