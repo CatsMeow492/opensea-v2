@@ -41,11 +41,15 @@ const Hero = () => {
             ></img>
             <div className={style.infoContainer}>
                 <img 
-                    className="rounded-full"
+                    className="h-[2.25rem] rounded-full"
                     src="https://lh3.googleusercontent.com/ujepnqpnL0nDQIHsWxlCXzyw4pf01yjz1Jmb4kAQHumJAPrSEj0-e3ABMZlZ1HEpJoqwOcY_kgnuJGzfXbd2Tijri66GXUtfN2MXQA=s250"
                 ></img>
                 <div className={style.author}>
-                    <div className={style.name}>NFT</div>
+                    <div className={style.name}>CatsMeow</div>
+                    <a
+                        className="text-[#1868b7]"
+                        href="https://opensea.io/accounts/CatsMeow"
+                    />
                 </div>
             </div>
           </div>
