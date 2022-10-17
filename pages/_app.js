@@ -19,8 +19,9 @@ function MyApp({ Component, pageProps }) {
       supportedChainIds={supportedChainIds}
       connectors={connectors}
       >
-  <Component {...pageProps} />
-  </ThirdwebWeb3Provider>
+
+      <Component {...pageProps} />
+    </ThirdwebWeb3Provider>
   )
 }
 
