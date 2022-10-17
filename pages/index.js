@@ -13,6 +13,20 @@ const style = {
 export default function Home() {
   // use web3 hook
   const { address, connectWallet } = useWeb3()
+
+  // When a user logs in add their address to the sanity database
+  useEffect(() => {
+    if (!address) return
+    ;(async () => { 
+      const userDoc = {
+        _type: 'users',
+        _id: address,
+        userName: 'Unnamed',
+        walletAddress: address,
+      }
+      const result = await client.createIfNotExists(userDoc)
+    })() // Immediately Invoke Functional Expression
+  }, [address])
   return (
     <div className={style.wrapper}>
       // Only render hero and header of the address exists
