@@ -1,6 +1,7 @@
 import Header from '../components/Header'
 import Hero from '../components/Hero'
 import { useEffect } from 'react'
+import { useWeb3 } from '@3rdweb/hooks'
 
 const style = {
   wrapper: ``,
@@ -10,10 +11,31 @@ const style = {
 }
 
 export default function Home() {
+  // use web3 hook
+  const { address, connectWallet } = useWeb3()
   return (
-    <>
-      <Header />
-      <Hero />
-    </>
+    <div className={style.wrapper}>
+      // Only render hero and header of the address exists
+      {address ? (
+      <>
+        <Header />
+        <Hero />
+      </>
+      ) : (
+      // Otherwise render the wallet connect button
+      <div className={style.walletConnectWrapper}>
+        <button
+          className={style.button}
+          onClick={() => connectWallet('injected')}
+        >
+          Connect Wallet
+        </button>
+        <div className={style.details}>
+          You need Chrome to be installed
+          <br /> able to run this app.
+        </div>
+      </div>
+        )}
+    </div>
   )
 }
