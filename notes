@@ -1,8 +1,0 @@
-# Commands Used
-
-`yarn create next-app -e with-tailwindcss opensea-v2`
-`npm install -g @sanity/cli`  // This is the database ORM
-`npm install @3rdweb/hooks`
-`npm install react-hot-toast` // This is the module used to handle notifications
-
-1:03:00
