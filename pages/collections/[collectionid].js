@@ -111,9 +111,7 @@ const Collection = () => {
   console.log(router.query + ' this is router.query')
   console.log(router.query.collectionId + ' this is router.query.collectionId')
   return (
-    <Link href="/">
-    <h2>{router.query.collectionId}</h2>
-    </Link>
+    <></>
   )
 }
 
