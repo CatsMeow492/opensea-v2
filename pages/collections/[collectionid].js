@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useMemo } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { useWeb3 } from '@3rdweb/hooks'
-import { client } from '../../lib/sanityClient'
-import { ThirdwebSDK } from '@3rdweb/sdk'
-import Header from '../../components/Header'
-import { CgWebsite } from 'react-icons/cg'
-import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai'
-import { HiDotsVertical } from 'react-icons/hi'
-import NFTCard from '../../components/NFTCard'
-
+import React, { useEffect, useState, useMemo } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { useWeb3 } from "@3rdweb/hooks";
+import { client } from "../../lib/sanityClient";
+import { ThirdwebSDK } from "@3rdweb/sdk";
+import Header from "../../components/Header";
+import { CgWebsite } from "react-icons/cg";
+import { AiOutlineInstagram, AiOutlineTwitter, AiOutlineGithub } from "react-icons/ai";
+import { HiDotsVertical } from "react-icons/hi";
+import NFTCard from "../../components/NFTCard";
 
 const style = {
   bannerImageContainer: `h-[20vh] w-screen overflow-hidden flex justify-center items-center`,
@@ -31,57 +30,57 @@ const style = {
   ethLogo: `h-6 mr-2`,
   statName: `text-lg w-full text-center mt-1`,
   description: `text-[#8a939b] text-xl w-max-1/4 flex-wrap mt-4`,
-}
+};
 
 const Collection = () => {
-  const router = useRouter()
-  const { provider } = useWeb3()
-  const { collectionId } = router.query
-  const [collection, setCollection] = useState({})
-  const [nfts, setNfts] = useState([])
-  const [listings, setListings] = useState([])
+  const router = useRouter();
+  const { provider } = useWeb3();
+  const { collectionId } = router.query;
+  const [collection, setCollection] = useState({});
+  const [nfts, setNfts] = useState([]);
+  const [listings, setListings] = useState([]);
 
   //
 
   const nftModule = useMemo(() => {
-    if (!provider) return
+    if (!provider) return;
 
     const sdk = new ThirdwebSDK(
       provider.getSigner(),
-      'https://eth-goerli.g.alchemy.com/v2/shzHqCWSqT9gfhsvdkjdoscNZonRZRpG'
-    )
-    return sdk.getNFTModule(collectionId)
-  }, [provider])
+      "https://eth-goerli.g.alchemy.com/v2/shzHqCWSqT9gfhsvdkjdoscNZonRZRpG"
+    );
+    return sdk.getNFTModule(collectionId);
+  }, [provider]);
 
   // get all NFTs in the collection
   useEffect(() => {
-    if (!nftModule) return
-    ;(async () => {
-      const nfts = await nftModule.getAll()
+    if (!nftModule) return;
+    (async () => {
+      const nfts = await nftModule.getAll();
 
-      setNfts(nfts)
-    })()
-  }, [nftModule])
+      setNfts(nfts);
+    })();
+  }, [nftModule]);
 
   const marketPlaceModule = useMemo(() => {
-    if (!provider) return
+    if (!provider) return;
 
     const sdk = new ThirdwebSDK(
       provider.getSigner(),
-      'https://eth-goerli.g.alchemy.com/v2/shzHqCWSqT9gfhsvdkjdoscNZonRZRpG'
-    )
+      "https://eth-goerli.g.alchemy.com/v2/shzHqCWSqT9gfhsvdkjdoscNZonRZRpG"
+    );
     return sdk.getMarketplaceModule(
-      '0x1263eD594D37C4B9cC2288B49Ee16cD994B1952e'
-    )
-  }, [provider])
+      "0x1263eD594D37C4B9cC2288B49Ee16cD994B1952e"
+    );
+  }, [provider]);
 
   // get all listings in the collection
   useEffect(() => {
-    if (!marketPlaceModule) return
-    ;(async () => {
-      setListings(await marketPlaceModule.getAllListings())
-    })()
-  }, [marketPlaceModule])
+    if (!marketPlaceModule) return;
+    (async () => {
+      setListings(await marketPlaceModule.getAllListings());
+    })();
+  }, [marketPlaceModule]);
 
   const fetchCollectionData = async (sanityClient = client) => {
     const query = `*[_type == "marketItems" && contractAddress == "${collectionId}" ] {
@@ -95,22 +94,22 @@ const Collection = () => {
       floorPrice,
       "allOwners": owners[]->,
       description
-    }`
+    }`;
 
-    const collectionData = await sanityClient.fetch(query)
+    const collectionData = await sanityClient.fetch(query);
 
-    console.log(collectionData, '🔥')
+    console.log(collectionData, "🔥");
 
     // the query returns 1 object inside of an array
-    setCollection(collectionData[0])
-  }
+    setCollection(collectionData[0]);
+  };
 
   useEffect(() => {
-    fetchCollectionData()
-  }, [collectionId])
+    fetchCollectionData();
+  }, [collectionId]);
 
-  console.log(router.query + ' this is router.query')
-  console.log(router.query.collectionId + ' this is router.query.collectionId')
+  console.log(router.query + " this is router.query");
+  console.log(router.query.collectionId + " this is router.query.collectionId");
   return (
     <div className="overflow-hidden">
       <Header />
@@ -119,27 +118,108 @@ const Collection = () => {
           className={style.bannerImage}
           src={
             collection?.bannerImageUrl
-            ? collection.bannerImageUrl
-            : 'https://via.placeholder.com/200'
+              ? collection.bannerImageUrl
+              : 'https://via.placeholder.com/200'
           }
           alt="banner"
-          />
+        />
       </div>
       <div className={style.infoContainer}>
-          <div className={style.midRow}>
-            <img
+        <div className={style.midRow}>
+          <img
             className={style.profileImg}
             src={
               collection?.imageUrl
-              ? collection.imageUrl
-              : 'https://via.placeholder.com/200'
+                ? collection.imageUrl
+                : 'https://via.placeholder.com/200'
             }
             alt="profile image"
-            />
+          />
+        </div>
+        <div className={style.endRow}>
+          <div className={style.socialIconsContainer}>
+            <div className={style.socialIconsWrapper}>
+              <div className={style.socialIconsContent}>
+                <div className={style.socialIcon}>
+                  <CgWebsite />
+                </div>
+                <div className={style.divider} />
+                <div className={style.socialIcon}>
+                  <AiOutlineInstagram />
+                </div>
+                <div className={style.divider} />
+                <div className={style.socialIcon}>
+                  <AiOutlineTwitter />
+                </div>
+                <div className={style.divider} />
+                <div className={style.socialIcon}>
+                  <HiDotsVertical />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <div className={style.midRow}>
+          <div className={style.title}>{collection?.title}</div>
+        </div>
+        <div className={style.midRow}>
+          <div className={style.createdBy}>
+            Created by{' '}
+            <span className="text-[#2081e2]">{collection?.creator}</span>
+          </div>
+        </div>
+        <div className={style.midRow}>
+          <div className={style.statsContainer}>
+            <div className={style.collectionStat}>
+              <div className={style.statValue}>{nfts.length}</div>
+              <div className={style.statName}>items</div>
+            </div>
+            <div className={style.collectionStat}>
+              <div className={style.statValue}>
+                {collection?.allOwners ? collection.allOwners.length : ''}
+              </div>
+              <div className={style.statName}>owners</div>
+            </div>
+            <div className={style.collectionStat}>
+              <div className={style.statValue}>
+                <img
+                  src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=023"
+                  alt="eth"
+                  className={style.ethLogo}
+                />
+                {collection?.floorPrice}
+              </div>
+              <div className={style.statName}>floor price</div>
+            </div>
+            <div className={style.collectionStat}>
+              <div className={style.statValue}>
+                <img
+                  src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=023"
+                  alt="eth"
+                  className={style.ethLogo}
+                />
+                {collection?.volumeTraded}.5K
+              </div>
+              <div className={style.statName}>volume traded</div>
+            </div>
+          </div>
+        </div>
+        <div className={style.midRow}>
+          <div className={style.description}>{collection?.description}</div>
+        </div>
+      </div>
+      <div className="flex flex-wrap ">
+        {nfts.map((nftItem, id) => (
+          <NFTCard
+            key={id}
+            nftItem={nftItem}
+            title={collection?.title}
+            listings={listings}
+          />
+        ))}
+      </div>
     </div>
   )
-}
+};
 
-export default Collection
+export default Collection;
