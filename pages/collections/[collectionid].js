@@ -8,6 +8,7 @@ import Header from '../../components/Header'
 import { CgWebsite } from 'react-icons/cg'
 import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai'
 import { HiDotsVertical } from 'react-icons/hi'
+import NFTCard from '../../components/NFTCard'
 
 
 const style = {
@@ -111,7 +112,33 @@ const Collection = () => {
   console.log(router.query + ' this is router.query')
   console.log(router.query.collectionId + ' this is router.query.collectionId')
   return (
-    <></>
+    <div className="overflow-hidden">
+      <Header />
+      <div className={style.bannerImageContainer}>
+        <img
+          className={style.bannerImage}
+          src={
+            collection?.bannerImageUrl
+            ? collection.bannerImageUrl
+            : 'https://via.placeholder.com/200'
+          }
+          alt="banner"
+          />
+      </div>
+      <div className={style.infoContainer}>
+          <div className={style.midRow}>
+            <img
+            className={style.profileImg}
+            src={
+              collection?.imageUrl
+              ? collection.imageUrl
+              : 'https://via.placeholder.com/200'
+            }
+            alt="profile image"
+            />
+          </div>
+        </div>
+    </div>
   )
 }
 
