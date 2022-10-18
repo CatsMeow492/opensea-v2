@@ -1,7 +1,14 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useWeb3 } from '@3rdweb/hooks'
+import { client } from '../../lib/sanityClient'
+import { ThirdwebSDK } from '@3rdweb/sdk'
+import Header from '../../components/Header'
+import { CgWebsite } from 'react-icons/cg'
+import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai'
+import { HiDotsVertical } from 'react-icons/hi'
+
 
 const style = {
   bannerImageContainer: `h-[20vh] w-screen overflow-hidden flex justify-center items-center`,
@@ -25,60 +32,87 @@ const style = {
   description: `text-[#8a939b] text-xl w-max-1/4 flex-wrap mt-4`,
 }
 
-// API Key https://eth-mainnet.g.alchemy.com/v2/VsVPgZ4d70j1tiXswUNEaALezqYTAkWa
-
-function Collection() {
+const Collection = () => {
   const router = useRouter()
-  // UseWeb3 Provider
   const { provider } = useWeb3()
-  const {collectionId} = router.query
+  const { collectionId } = router.query
   const [collection, setCollection] = useState({})
-  const [nfts, setNtfs] = useState([])
+  const [nfts, setNfts] = useState([])
   const [listings, setListings] = useState([])
+
+  //
 
   const nftModule = useMemo(() => {
     if (!provider) return
-      const sdk = new ThirdwebSDK(
-        provider.getSigner(),
-        'https://eth-mainnet.g.alchemy.com/v2/VsVPgZ4d70j1tiXswUNEaALezqYTAkWa'
-      )
-      return sdk.getNFTModule(collectionId)
+
+    const sdk = new ThirdwebSDK(
+      provider.getSigner(),
+      'https://eth-goerli.g.alchemy.com/v2/shzHqCWSqT9gfhsvdkjdoscNZonRZRpG'
+    )
+    return sdk.getNFTModule(collectionId)
   }, [provider])
 
-  // Function to get all the NFTs inside of a collection
+  // get all NFTs in the collection
   useEffect(() => {
-    if(!nftModule) return
+    if (!nftModule) return
     ;(async () => {
       const nfts = await nftModule.getAll()
-      setNtfs(nfts)
+
+      setNfts(nfts)
     })()
   }, [nftModule])
 
   const marketPlaceModule = useMemo(() => {
     if (!provider) return
-      const sdk = new ThirdwebSDK(
-        provider.getSigner(),
-        'https://eth-mainnet.g.alchemy.com/v2/VsVPgZ4d70j1tiXswUNEaALezqYTAkWa'
-      )
-      return sdk.getMarketplaceModule(
-        '0x491C45074be572E6B6ecFA49C5870Bf5530Fe591'
-      )
+
+    const sdk = new ThirdwebSDK(
+      provider.getSigner(),
+      'https://eth-goerli.g.alchemy.com/v2/shzHqCWSqT9gfhsvdkjdoscNZonRZRpG'
+    )
+    return sdk.getMarketplaceModule(
+      '0x1263eD594D37C4B9cC2288B49Ee16cD994B1952e'
+    )
   }, [provider])
 
   // get all listings in the collection
   useEffect(() => {
-    if(!marketPlaceModule) return
+    if (!marketPlaceModule) return
     ;(async () => {
-      const listings = await marketPlaceModule.getAllListings()
-      setListings(listings)
+      setListings(await marketPlaceModule.getAllListings())
     })()
   }, [marketPlaceModule])
 
-  console.log(router.query)
-  console.log(router.query.collectionId)
+  const fetchCollectionData = async (sanityClient = client) => {
+    const query = `*[_type == "marketItems" && contractAddress == "${collectionId}" ] {
+      "imageUrl": profileImage.asset->url,
+      "bannerImageUrl": bannerImage.asset->url,
+      volumeTraded,
+      createdBy,
+      contractAddress,
+      "creator": createdBy->userName,
+      title, 
+      floorPrice,
+      "allOwners": owners[]->,
+      description
+    }`
+
+    const collectionData = await sanityClient.fetch(query)
+
+    console.log(collectionData, '🔥')
+
+    // the query returns 1 object inside of an array
+    setCollection(collectionData[0])
+  }
+
+  useEffect(() => {
+    fetchCollectionData()
+  }, [collectionId])
+
+  console.log(router.query + ' this is router.query')
+  console.log(router.query.collectionId + ' this is router.query.collectionId')
   return (
     <Link href="/">
-        <h2>{router.query.collectionId}</h2>
+    <h2>{router.query.collectionId}</h2>
     </Link>
   )
 }
