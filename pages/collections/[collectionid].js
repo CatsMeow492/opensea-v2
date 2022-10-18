@@ -25,6 +25,8 @@ const style = {
   description: `text-[#8a939b] text-xl w-max-1/4 flex-wrap mt-4`,
 }
 
+// API Key https://eth-mainnet.g.alchemy.com/v2/VsVPgZ4d70j1tiXswUNEaALezqYTAkWa
+
 function Collection() {
   const router = useRouter()
   // UseWeb3 Provider
@@ -33,6 +35,44 @@ function Collection() {
   const [collection, setCollection] = useState({})
   const [nfts, setNtfs] = useState([])
   const [listings, setListings] = useState([])
+
+  const nftModule = useMemo(() => {
+    if (!provider) return
+      const sdk = new ThirdwebSDK(
+        provider.getSigner(),
+        'https://eth-mainnet.g.alchemy.com/v2/VsVPgZ4d70j1tiXswUNEaALezqYTAkWa'
+      )
+      return sdk.getNFTModule(collectionId)
+  }, [provider])
+
+  // Function to get all the NFTs inside of a collection
+  useEffect(() => {
+    if(!nftModule) return
+    ;(async () => {
+      const nfts = await nftModule.getAll()
+      setNtfs(nfts)
+    })()
+  }, [nftModule])
+
+  const marketPlaceModule = useMemo(() => {
+    if (!provider) return
+      const sdk = new ThirdwebSDK(
+        provider.getSigner(),
+        'https://eth-mainnet.g.alchemy.com/v2/VsVPgZ4d70j1tiXswUNEaALezqYTAkWa'
+      )
+      return sdk.getMarketplaceModule(
+        '0x491C45074be572E6B6ecFA49C5870Bf5530Fe591'
+      )
+  }, [provider])
+
+  // get all listings in the collection
+  useEffect(() => {
+    if(!marketPlaceModule) return
+    ;(async () => {
+      const listings = await marketPlaceModule.getAllListings()
+      setListings(listings)
+    })()
+  }, [marketPlaceModule])
 
   console.log(router.query)
   console.log(router.query.collectionId)
