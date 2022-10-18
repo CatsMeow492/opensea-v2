@@ -3,6 +3,7 @@ import Hero from '../components/Hero'
 import { useEffect } from 'react'
 import { useWeb3 } from '@3rdweb/hooks'
 import { client } from '../lib/sanityClient'
+import toast, { Toaster } from 'react-hot-toast'
 
 const style = {
   wrapper: ``,
@@ -14,7 +15,19 @@ const style = {
 export default function Home() {
   // use web3 hook
   const { address, connectWallet } = useWeb3()
-
+  // Create toast handler
+  const welcomeUser = (userName, toastHandler = toast) => {
+    toastHandler.success(
+      `Welcome back${userName !== 'Unnamed' ? `, ${userName}` : ''}!`,
+      {
+        style: {
+          background: '#04111d',
+          color: '#fff',
+        },
+      }
+      
+      )
+  }
   // When a user logs in add their address to the sanity database
   useEffect(() => {
     if (!address) return
@@ -26,11 +39,13 @@ export default function Home() {
         walletAddress: address,
       }
       const result = await client.createIfNotExists(userDoc)
+      welcomeUser(result.userName)
     })() // Immediately Invoke Functional Expression
   }, [address])
   return (
     <div className={style.wrapper}>
-      // Only render hero and header of the address exists
+      <Toaster position='top-center' reverseOrder={false} />
+      {/* ONLY SHOW THE HEADER IF THE USER IS CONNECTED */}
       {address ? (
       <>
         <Header />
