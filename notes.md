@@ -5,6 +5,7 @@
 `npm install @3rdweb/hooks`
 `npm install react-hot-toast` // This is the module used to handle notifications
 `npm install @3rdweb/sdk`
+`vercel` // to deploy
 
 API Query
 `
@@ -26,5 +27,5 @@ description
 0xD0Da94912ED157f905B68686d8cAdb37a23e9BCe - Collection
 https://eth-goerli.g.alchemy.com/v2/shzHqCWSqT9gfhsvdkjdoscNZonRZRpG - Alchemy API Key
 
-1:56:00
+
 
