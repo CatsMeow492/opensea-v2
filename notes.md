@@ -26,3 +26,14 @@ description
 0xD0Da94912ED157f905B68686d8cAdb37a23e9BCe - Collection
 
 1:34:00
+
+    const marketPlaceModule = useMemo(() => {
+        if (!provider) return
+        const sdk = new ThirdwebSDK(
+            provider.getSigner(),
+            'https://eth-goerli.g.alchemy.com/v2/shzHqCWSqT9gfhsvdkjdoscNZonRZRpG'
+        )
+        return sdk.getMarketplaceModule(
+            '0x1263eD594D37C4B9cC2288B49Ee16cD994B1952e'
+        )
+    }, [provider])
