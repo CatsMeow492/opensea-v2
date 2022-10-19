@@ -208,6 +208,7 @@ const Collection = () => {
           <div className={style.description}>{collection?.description}</div>
         </div>
       </div>
+      {/* Map all of the NFTs in Sanity.io to the NFTCard function */}
       <div className="flex flex-wrap ">
         {nfts.map((nftItem, id) => (
           <NFTCard
